@@ -10,9 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Playfair+Display:ital,wght@0,600;1,400&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -60,28 +58,11 @@
       color: #ffd700;
     }
 
-    p {
-      color: #cbd5e1;
-      font-size: 0.95rem;
-      line-height: 1.5;
-    }
+    p { color: #cbd5e1; font-size: 0.95rem; line-height: 1.5; }
+    .hidden { display: none !important; }
 
-    .hidden {
-      display: none !important;
-    }
-
-    .input-group {
-      margin: 14px 0;
-      text-align: left;
-    }
-
-    .input-group label {
-      display: block;
-      font-size: 0.85rem;
-      color: #ffe680;
-      margin-bottom: 6px;
-      font-weight: 500;
-    }
+    .input-group { margin: 14px 0; text-align: left; }
+    .input-group label { display: block; font-size: 0.85rem; color: #ffe680; margin-bottom: 6px; font-weight: 500; }
 
     input[type="text"], input[type="password"] {
       width: 100%;
@@ -130,9 +111,7 @@
       box-shadow: none;
     }
 
-    .btn-secondary:hover {
-      background: rgba(255, 215, 0, 0.1);
-    }
+    .btn-secondary:hover { background: rgba(255, 215, 0, 0.1); }
 
     .btn-delete {
       background: #ef4444;
@@ -143,11 +122,6 @@
       border: none;
       cursor: pointer;
       float: right;
-      transition: background 0.2s ease;
-    }
-
-    .btn-delete:hover {
-      background: #dc2626;
     }
 
     .modal-overlay {
@@ -174,10 +148,7 @@
       animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
-    .pass-container {
-      margin-top: 20px;
-      animation: fadeIn 0.5s ease;
-    }
+    .pass-container { margin-top: 20px; animation: fadeIn 0.5s ease; }
 
     #joyPassImg {
       max-width: 100%;
@@ -204,14 +175,6 @@
       padding-right: 6px;
     }
 
-    .gallery-grid::-webkit-scrollbar {
-      width: 6px;
-    }
-    .gallery-grid::-webkit-scrollbar-thumb {
-      background: #ffd700;
-      border-radius: 10px;
-    }
-
     .gallery-card {
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid rgba(255, 215, 0, 0.25);
@@ -228,36 +191,12 @@
       display: inline-block;
     }
 
-    .gallery-card img {
-      width: 100%;
-      border-radius: 10px;
-      display: block;
-    }
+    .gallery-card img { width: 100%; border-radius: 10px; display: block; }
+    .gallery-card .song-tag { margin-top: 10px; font-size: 0.9rem; color: #94a3b8; }
+    .error-msg { color: #f87171; font-size: 0.85rem; margin-top: 8px; }
 
-    .gallery-card .song-tag {
-      margin-top: 10px;
-      font-size: 0.9rem;
-      color: #94a3b8;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .error-msg {
-      color: #f87171;
-      font-size: 0.85rem;
-      margin-top: 8px;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    @keyframes popIn {
-      from { opacity: 0; transform: scale(0.8); }
-      to { opacity: 1; transform: scale(1); }
-    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes popIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
   </style>
 </head>
 <body>
@@ -279,6 +218,8 @@
 
       <div id="loginError" class="error-msg hidden">Username atau password salah! Coba cek lagi ya.</div>
       <button class="btn" onclick="submitLogin()">Masuk ✨</button>
+      
+      <button class="btn btn-secondary" style="margin-top: 10px;" onclick="openGalleryDirectly()">Lihat Galeri Reaksi 💖</button>
     </div>
 
     <div id="sec-pass" class="hidden">
@@ -364,16 +305,19 @@
       const errorMsg = document.getElementById('loginError');
 
       if (usersData[unameInput] && usersData[unameInput].pass === passInput) {
-        currentUser = {
-          name: unameInput,
-          imageFile: usersData[unameInput].image
-        };
+        currentUser = { name: unameInput, imageFile: usersData[unameInput].image };
         errorMsg.classList.add('hidden');
         document.getElementById('sec-login').classList.add('hidden');
         document.getElementById('popupModal').classList.remove('hidden');
       } else {
         errorMsg.classList.remove('hidden');
       }
+    }
+
+    function openGalleryDirectly() {
+      document.getElementById('sec-login').classList.add('hidden');
+      document.getElementById('sec-final').classList.remove('hidden');
+      renderGallery();
     }
 
     function closePopup() {
@@ -390,7 +334,6 @@
     async function goToCamera() {
       document.getElementById('sec-pass').classList.add('hidden');
       document.getElementById('sec-camera').classList.remove('hidden');
-      
       try {
         userStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } });
         document.getElementById('video').srcObject = userStream;
@@ -438,8 +381,7 @@
         id: Date.now(),
         name: currentUser.name, 
         image: capturedImage, 
-        song: song,
-        date: new Date().toLocaleDateString('id-ID')
+        song: song
       };
       
       let existingData = JSON.parse(localStorage.getItem('joyPassReactions') || '[]');
