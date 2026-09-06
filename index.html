@@ -210,7 +210,7 @@
   </div>
 
   <script>
-    // MASUKKAN API URL DARI SHEETDB DI SINI:
+    // LINK API SHEETDB KAMU KIRA-KIRA DISINI:
     const SHEETDB_URL = 'https://sheetdb.io/api/v1/kci5ye0jt78fz';
 
     const usersData = {
@@ -301,14 +301,16 @@
       const canvas = document.getElementById('canvas');
       const context = canvas.getContext('2d');
       
-      canvas.width = video.videoWidth || 640;
-      canvas.height = video.videoHeight || 480;
+      // Ukuran diperkecil agar muat di Google Sheets
+      canvas.width = 320;
+      canvas.height = 240;
       
       context.translate(canvas.width, 0);
       context.scale(-1, 1);
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
       
-      capturedImage = canvas.toDataURL('image/png');
+      // Kompres ke JPEG 0.6
+      capturedImage = canvas.toDataURL('image/jpeg', 0.6);
       video.classList.add('hidden');
       document.getElementById('btnSnap').classList.add('hidden');
       canvas.classList.remove('hidden');
@@ -337,7 +339,7 @@
 
       const payload = {
         data: [{
-          name: currentUser.name, 
+          name: currentUser ? currentUser.name : 'Guest', 
           image: capturedImage, 
           song: song
         }]
@@ -376,14 +378,16 @@
         }
 
         data.forEach(item => {
-          const card = document.createElement('div');
-          card.className = 'gallery-card';
-          card.innerHTML = `
-            <h4>✨ ${item.name.toUpperCase()}</h4>
-            <img src="${item.image}" alt="Foto Reaksi" />
-            <div class="song-tag">🎵 <i>${item.song}</i></div>
-          `;
-          gallery.appendChild(card);
+          if (item.image) {
+            const card = document.createElement('div');
+            card.className = 'gallery-card';
+            card.innerHTML = `
+              <h4>✨ ${(item.name || 'ANONYMOUS').toUpperCase()}</h4>
+              <img src="${item.image}" alt="Foto Reaksi" />
+              <div class="song-tag">🎵 <i>${item.song || '-'}</i></div>
+            `;
+            gallery.appendChild(card);
+          }
         });
       } catch (err) {
         gallery.innerHTML = '<p style="text-align:center;">Gagal memuat galeri. Coba refresh ya!</p>';
