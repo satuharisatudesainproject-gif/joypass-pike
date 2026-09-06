@@ -218,7 +218,6 @@
 
       <div id="loginError" class="error-msg hidden">Username atau password salah! Coba cek lagi ya.</div>
       <button class="btn" onclick="submitLogin()">Masuk ✨</button>
-      
       <button class="btn btn-secondary" style="margin-top: 10px;" onclick="openGalleryDirectly()">Lihat Galeri Reaksi 💖</button>
     </div>
 
@@ -229,6 +228,9 @@
       
       <div id="passDisplay" class="pass-container hidden">
         <img id="joyPassImg" src="" alt="Joy Pass" />
+        
+        <button class="btn btn-secondary" style="margin-top: 15px;" onclick="downloadPass()">Download Joy Pass 📥</button>
+        
         <p style="margin-top: 15px; font-size: 0.9rem;">Abadikan momen reaksi kamu setelah liat ini ya!</p>
         <button class="btn" onclick="goToCamera()">Take Photo Reaksi 📸</button>
       </div>
@@ -329,6 +331,16 @@
     function revealJoyPass() {
       document.getElementById('btnGetPass').classList.add('hidden');
       document.getElementById('passDisplay').classList.remove('hidden');
+    }
+
+    function downloadPass() {
+      if (!currentUser) return;
+      const a = document.createElement('a');
+      a.href = currentUser.imageFile;
+      a.download = `JoyPass-${currentUser.name}.png`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
     }
 
     async function goToCamera() {
