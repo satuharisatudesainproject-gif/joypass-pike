@@ -111,7 +111,7 @@
       font-family: 'Plus Jakarta Sans', sans-serif;
       border-radius: 12px;
       cursor: pointer;
-      margin-top: 18px;
+      margin-top: 12px;
       width: 100%;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);
@@ -132,6 +132,22 @@
 
     .btn-secondary:hover {
       background: rgba(255, 215, 0, 0.1);
+    }
+
+    .btn-delete {
+      background: #ef4444;
+      color: white;
+      padding: 4px 10px;
+      font-size: 0.75rem;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      float: right;
+      transition: background 0.2s ease;
+    }
+
+    .btn-delete:hover {
+      background: #dc2626;
     }
 
     .modal-overlay {
@@ -209,6 +225,7 @@
       color: #ffe680;
       font-family: 'Playfair Display', serif;
       font-size: 1.1rem;
+      display: inline-block;
     }
 
     .gallery-card img {
@@ -293,6 +310,7 @@
           <input type="text" id="songInput" placeholder="Contoh: Taylor Swift - Cruel Summer" />
         </div>
         <button class="btn" onclick="saveReaction()">Simpan & Lihat Semua Reaksi ✨</button>
+        <button class="btn btn-secondary" onclick="retakePhoto()">Foto Ulang 🔄</button>
       </div>
     </div>
 
@@ -410,10 +428,19 @@
       document.getElementById('songForm').classList.remove('hidden');
     }
 
+    function retakePhoto() {
+      document.getElementById('canvas').classList.add('hidden');
+      document.getElementById('songForm').classList.add('hidden');
+      document.getElementById('video').classList.remove('hidden');
+      document.getElementById('btnSnap').classList.remove('hidden');
+      goToCamera();
+    }
+
     function saveReaction() {
       const song = document.getElementById('songInput').value || 'Tanpa judul lagu';
       
       const newEntry = { 
+        id: Date.now(),
         name: currentUser.name, 
         image: capturedImage, 
         song: song,
@@ -427,6 +454,13 @@
       renderGallery();
       document.getElementById('sec-camera').classList.add('hidden');
       document.getElementById('sec-final').classList.remove('hidden');
+    }
+
+    function deleteReaction(id) {
+      let existingData = JSON.parse(localStorage.getItem('joyPassReactions') || '[]');
+      existingData = existingData.filter(item => item.id !== id);
+      localStorage.setItem('joyPassReactions', JSON.stringify(existingData));
+      renderGallery();
     }
 
     function renderGallery() {
@@ -443,6 +477,7 @@
         const card = document.createElement('div');
         card.className = 'gallery-card';
         card.innerHTML = `
+          <button class="btn-delete" onclick="deleteReaction(${item.id})">Hapus 🗑️</button>
           <h4>✨ ${item.name.toUpperCase()}</h4>
           <img src="${item.image}" alt="Foto Reaksi" />
           <div class="song-tag">🎵 <i>${item.song}</i></div>
