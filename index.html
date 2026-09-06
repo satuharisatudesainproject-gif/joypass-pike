@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Joy Pass - My Gurls ✨</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Playfair+Display:ital,wght@0,600;1,400&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #0b132b;
+      color: #f4f4f9;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(rgba(255, 215, 0, 0.8) 1.5px, transparent 1.5px),
+        radial-gradient(rgba(255, 223, 128, 0.5) 1px, transparent 1px);
+      background-size: 60px 60px, 40px 40px;
+      background-position: 0 0, 20px 20px;
+    }
+
+    .container {
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      border-radius: 24px;
+      padding: 36px 28px;
+      max-width: 480px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 215, 0, 0.15);
+      position: relative;
+      z-index: 10;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Playfair Display', serif;
+      letter-spacing: 0.5px;
+      color: #ffe680;
+      margin-top: 0;
+    }
+
+    .handwriting {
+      font-family: 'Caveat', cursive;
+      font-size: 2rem;
+      color: #ffd700;
+    }
+
+    p {
+      color: #cbd5e1;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .input-group {
+      margin: 14px 0;
+      text-align: left;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 0.85rem;
+      color: #ffe680;
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      background: rgba(11, 19, 43, 0.7);
+      color: #ffffff;
+      font-size: 0.95rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    input[type="text"]:focus, input[type="password"]:focus {
+      border-color: #ffd700;
+      box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+    }
+
+    .btn {
+      background: linear-gradient(135deg, #ffd700, #ffb703);
+      color: #0b132b;
+      border: none;
+      padding: 14px 28px;
+      font-weight: 600;
+      font-size: 1rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      border-radius: 12px;
+      cursor: pointer;
+      margin-top: 18px;
+      width: 100%;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+      background: linear-gradient(135deg, #ffe033, #ffc21a);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid #ffd700;
+      color: #ffd700;
+      box-shadow: none;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 215, 0, 0.1);
+    }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(5, 10, 20, 0.85);
+      backdrop-filter: blur(8px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .modal {
+      background: rgba(15, 23, 42, 0.95);
+      border: 2px solid #ffd700;
+      padding: 40px 30px;
+      border-radius: 20px;
+      text-align: center;
+      max-width: 380px;
+      width: 85%;
+      box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+      animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .pass-container {
+      margin-top: 20px;
+      animation: fadeIn 0.5s ease;
+    }
+
+    #joyPassImg {
+      max-width: 100%;
+      border-radius: 16px;
+      margin-top: 15px;
+      border: 2px solid rgba(255, 215, 0, 0.5);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    }
+
+    video, canvas {
+      width: 100%;
+      border-radius: 16px;
+      margin-top: 12px;
+      border: 1px solid rgba(255, 215, 0, 0.3);
+    }
+
+    .gallery-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 20px;
+      max-height: 400px;
+      overflow-y: auto;
+      padding-right: 6px;
+    }
+
+    .gallery-grid::-webkit-scrollbar {
+      width: 6px;
+    }
+    .gallery-grid::-webkit-scrollbar-thumb {
+      background: #ffd700;
+      border-radius: 10px;
+    }
+
+    .gallery-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 215, 0, 0.25);
+      border-radius: 16px;
+      padding: 16px;
+      text-align: left;
+    }
+
+    .gallery-card h4 {
+      margin: 0 0 10px 0;
+      color: #ffe680;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+    }
+
+    .gallery-card img {
+      width: 100%;
+      border-radius: 10px;
+      display: block;
+    }
+
+    .gallery-card .song-tag {
+      margin-top: 10px;
+      font-size: 0.9rem;
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .error-msg {
+      color: #f87171;
+      font-size: 0.85rem;
+      margin-top: 8px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- STEP 1: LOGIN -->
+    <div id="sec-login">
+      <h2>Welcome, Gorgeous! ✨</h2>
+      <p>Masukkan username & password unik kamu untuk klaim Joy Pass khususmu ♡</p>
+      
+      <div class="input-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" placeholder="Contoh: aghnia1" autocomplete="off" />
+      </div>
+
+      <div class="input-group">
+        <label for="passcode">Password</label>
+        <input type="password" id="passcode" placeholder="Masukkan password" />
+      </div>
+
+      <div id="loginError" class="error-msg hidden">Username atau password salah! Coba cek lagi ya.</div>
+      <button class="btn" onclick="submitLogin()">Masuk ✨</button>
+    </div>
+
+    <!-- STEP 2: TOMBOL & DISPLAY JOY PASS -->
+    <div id="sec-pass" class="hidden">
+      <h2>Your Exclusive Pass</h2>
+      <p>Siap buat ngelihat Joy Pass kamu?</p>
+      <button class="btn" id="btnGetPass" onclick="revealJoyPass()">Get your joy pass! 🎟️</button>
+      
+      <div id="passDisplay" class="pass-container hidden">
+        <img id="joyPassImg" src="" alt="Joy Pass" />
+        <p style="margin-top: 15px; font-size: 0.9rem;">Abadikan momen reaksi kamu setelah liat ini ya!</p>
+        <button class="btn" onclick="goToCamera()">Take Photo Reaksi 📸</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: AMBIL FOTO & INPUT LAGU -->
+    <div id="sec-camera" class="hidden">
+      <h2>Document Your Reaction! 😃</h2>
+      <p>Foto wajah ekspresif kamu & tinggalin lagu favorit!</p>
+      
+      <video id="video" autoplay playsinline></video>
+      <button id="btnSnap" class="btn" onclick="takeSnap()">Snap Photo! 📷</button>
+      <canvas id="canvas" class="hidden"></canvas>
+      
+      <div id="songForm" class="hidden" style="margin-top: 15px;">
+        <div class="input-group">
+          <label for="songInput">Lagu / Kesan Kamu 🎵</label>
+          <input type="text" id="songInput" placeholder="Contoh: Taylor Swift - Cruel Summer" />
+        </div>
+        <button class="btn" onclick="saveReaction()">Simpan & Lihat Semua Reaksi ✨</button>
+      </div>
+    </div>
+
+    <!-- STEP 4: GALERI SEMUA FOTO & LAGU -->
+    <div id="sec-final" class="hidden">
+      <h2>Wall of Memories 💖</h2>
+      <p>Semua foto reaksi & lagu dari kalian tersimpan di sini!</p>
+      <div id="gallery" class="gallery-grid"></div>
+      <button class="btn btn-secondary" style="margin-top: 20px;" onclick="location.reload()">Kembali ke Awal</button>
+    </div>
+  </div>
+
+  <!-- POP-UP MODAL: HI, GORGEOUS! -->
+  <div id="popupModal" class="modal-overlay hidden">
+    <div class="modal">
+      <h1 class="handwriting" style="font-size: 2.8rem; margin-bottom: 10px;">Hi, Gorgeous! 💋✨</h1>
+      <p style="color: #cbd5e1; margin-bottom: 20px;">Your special Joy Pass is waiting for you...</p>
+      <button class="btn" onclick="closePopup()">Continue 💕</button>
+    </div>
+  </div>
+
+  <script>
+    const usersData = {
+      "aghnia1":     { pass: "pekapike", image: "my gurls(1).png" },
+      "alya2":       { pass: "pekapike", image: "my gurls(2).png" },
+      "alysia3":     { pass: "pekapike", image: "my gurls(3).png" },
+      "anisah4":     { pass: "pekapike", image: "my gurls(4).png" },
+      "arum5":       { pass: "pekapike", image: "my gurls(5).png" },
+      "aulia6":      { pass: "pekapike", image: "my gurls(6).png" },
+      "azmy7":       { pass: "pekapike", image: "my gurls(7).png" },
+      "era8":        { pass: "pekapike", image: "my gurls(8).png" },
+      "fauziyah9":   { pass: "pekapike", image: "my gurls(9).png" },
+      "galuh10":     { pass: "pekapike", image: "my gurls(10).png" },
+      "halsa11":     { pass: "pekapike", image: "my gurls(11).png" },
+      "ilma12":      { pass: "pekapike", image: "my gurls(12).png" },
+      "khoirunisa13":{ pass: "pekapike", image: "my gurls(13).png" },
+      "latifah14":   { pass: "pekapike", image: "my gurls(14).png" },
+      "nazila15":    { pass: "pekapike", image: "my gurls(15).png" },
+      "nazwa16":     { pass: "pekapike", image: "my gurls(16).png" },
+      "noor17":      { pass: "pekapike", image: "my gurls(17).png" },
+      "siti18":      { pass: "pekapike", image: "my gurls(18).png" },
+      "sofia19":     { pass: "pekapike", image: "my gurls(19).png" },
+      "syadiwa20":   { pass: "pekapike", image: "my gurls(20).png" },
+      "syahida21":   { pass: "pekapike", image: "my gurls(21).png" },
+      "syatta22":    { pass: "pekapike", image: "my gurls(22).png" },
+      "zahra24":     { pass: "pekapike", image: "my gurls(24).png" }
+    };
+
+    let currentUser = null;
+    let userStream = null;
+    let capturedImage = '';
+
+    function submitLogin() {
+      const unameInput = document.getElementById('username').value.trim().toLowerCase();
+      const passInput = document.getElementById('passcode').value;
+      const errorMsg = document.getElementById('loginError');
+
+      if (usersData[unameInput] && usersData[unameInput].pass === passInput) {
+        currentUser = {
+          name: unameInput,
+          imageFile: usersData[unameInput].image
+        };
+        errorMsg.classList.add('hidden');
+        document.getElementById('sec-login').classList.add('hidden');
+        document.getElementById('popupModal').classList.remove('hidden');
+      } else {
+        errorMsg.classList.remove('hidden');
+      }
+    }
+
+    function closePopup() {
+      document.getElementById('popupModal').classList.add('hidden');
+      document.getElementById('sec-pass').classList.remove('hidden');
+      document.getElementById('joyPassImg').src = currentUser.imageFile;
+    }
+
+    function revealJoyPass() {
+      document.getElementById('btnGetPass').classList.add('hidden');
+      document.getElementById('passDisplay').classList.remove('hidden');
+    }
+
+    async function goToCamera() {
+      document.getElementById('sec-pass').classList.add('hidden');
+      document.getElementById('sec-camera').classList.remove('hidden');
+      
+      try {
+        userStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } });
+        document.getElementById('video').srcObject = userStream;
+      } catch (err) {
+        alert('Tidak bisa mengakses kamera: ' + err);
+      }
+    }
+
+    function takeSnap() {
+      const video = document.getElementById('video');
+      const canvas = document.getElementById('canvas');
+      const context = canvas.getContext('2d');
+      
+      canvas.width = video.videoWidth || 640;
+      canvas.height = video.videoHeight || 480;
+      
+      context.translate(canvas.width, 0);
+      context.scale(-1, 1);
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+      
+      capturedImage = canvas.toDataURL('image/png');
+      video.classList.add('hidden');
+      document.getElementById('btnSnap').classList.add('hidden');
+      canvas.classList.remove('hidden');
+      
+      if (userStream) {
+        userStream.getTracks().forEach(track => track.stop());
+      }
+      
+      document.getElementById('songForm').classList.remove('hidden');
+    }
+
+    function saveReaction() {
+      const song = document.getElementById('songInput').value || 'Tanpa judul lagu';
+      
+      const newEntry = { 
+        name: currentUser.name, 
+        image: capturedImage, 
+        song: song,
+        date: new Date().toLocaleDateString('id-ID')
+      };
+      
+      let existingData = JSON.parse(localStorage.getItem('joyPassReactions') || '[]');
+      existingData.push(newEntry);
+      localStorage.setItem('joyPassReactions', JSON.stringify(existingData));
+      
+      renderGallery();
+      document.getElementById('sec-camera').classList.add('hidden');
+      document.getElementById('sec-final').classList.remove('hidden');
+    }
+
+    function renderGallery() {
+      const gallery = document.getElementById('gallery');
+      gallery.innerHTML = '';
+      const existingData = JSON.parse(localStorage.getItem('joyPassReactions') || '[]');
+      
+      if(existingData.length === 0) {
+        gallery.innerHTML = '<p style="text-align:center;">Belum ada foto reaksi.</p>';
+        return;
+      }
+
+      existingData.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'gallery-card';
+        card.innerHTML = `
+          <h4>✨ ${item.name.toUpperCase()}</h4>
+          <img src="${item.image}" alt="Foto Reaksi" />
+          <div class="song-tag">🎵 <i>${item.song}</i></div>
+        `;
+        gallery.appendChild(card);
+      });
+    }
+  </script>
+</body>
+</html>
